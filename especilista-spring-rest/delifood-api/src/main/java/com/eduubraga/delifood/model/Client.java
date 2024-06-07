@@ -1,4 +1,4 @@
-package com.eduubraga.delifood.di.model;
+package com.eduubraga.delifood.model;
 
 public class Client {
 

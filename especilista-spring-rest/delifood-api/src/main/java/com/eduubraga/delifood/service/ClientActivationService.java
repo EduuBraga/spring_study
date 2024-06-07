@@ -1,11 +1,8 @@
-package com.eduubraga.delifood.di.service;
+package com.eduubraga.delifood.service;
 
-import com.eduubraga.delifood.di.model.Client;
-import com.eduubraga.delifood.di.notification.EmailNotification;
-import com.eduubraga.delifood.di.notification.Notifier;
-import org.springframework.stereotype.Component;
+import com.eduubraga.delifood.model.Client;
+import com.eduubraga.delifood.notification.Notifier;
 
-@Component
 public class ClientActivationService {
     private final Notifier notifier;
 

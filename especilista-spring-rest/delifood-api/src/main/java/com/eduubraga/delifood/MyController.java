@@ -1,7 +1,7 @@
 package com.eduubraga.delifood;
 
-import com.eduubraga.delifood.di.model.Client;
-import com.eduubraga.delifood.di.service.ClientActivationService;
+import com.eduubraga.delifood.model.Client;
+import com.eduubraga.delifood.service.ClientActivationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
