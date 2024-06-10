@@ -9,10 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class NotificationEmail implements Notifier {
 
-    public NotificationEmail() {
-        System.out.println("NotificationEmail REAL");
-    }
-
     @Override
     public void notify(Client client, String message) {
         System.out.printf("Notificando %s atráves do e-mail %s: %s%n",
