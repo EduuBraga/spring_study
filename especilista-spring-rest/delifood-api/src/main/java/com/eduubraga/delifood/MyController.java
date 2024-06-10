@@ -13,14 +13,12 @@ public class MyController {
 
     public MyController(ClientActivationService clientActivationService) {
         this.clientActivationService = clientActivationService;
-
-        System.out.println("MyController " + clientActivationService);
     }
 
     @GetMapping("/hello")
     @ResponseBody
     public String hello() {
-        Client eduardo = new Client("dudu@gmail.com","Eduardo Braga", "85992929292");
+        Client eduardo = new Client("dudu@gmail.com", "Eduardo Braga", "85992929292");
 
         clientActivationService.activate(eduardo);
 
