@@ -26,4 +26,8 @@ public class KitchenRegistration {
         return manager.merge(kitchen);
     }
 
+    public Kitchen queryKitchenByID(Long id) {
+        return manager.find(Kitchen.class, id);
+    }
+
 }
