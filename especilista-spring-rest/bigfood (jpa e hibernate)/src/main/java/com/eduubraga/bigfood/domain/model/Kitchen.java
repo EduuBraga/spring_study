@@ -1,20 +1,16 @@
-package com.eduubraga.deliveryfood_api_jpa_hibernate.domain.model;
+package com.eduubraga.bigfood.domain.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
 @Entity
-@Table(name = "tab_kitchens")
 public class Kitchen {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nam_kitchen")
     private String name;
 
     public Long getId() {
@@ -46,5 +42,4 @@ public class Kitchen {
     public int hashCode() {
         return Objects.hashCode(id);
     }
-
 }
