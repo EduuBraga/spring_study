@@ -5,6 +5,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,6 +21,9 @@ public class KitchenRegistration {
         return query.getResultList();
     }
 
-    
+    @Transactional
+    public Kitchen AddKitchen(Kitchen kitchen) {
+        return manager.merge(kitchen);
+    }
 
 }
