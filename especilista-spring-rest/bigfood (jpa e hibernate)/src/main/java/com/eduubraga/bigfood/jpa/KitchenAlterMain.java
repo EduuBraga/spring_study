@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationContext;
 
 import java.util.List;
 
-public class KitchenAddMain {
+public class KitchenAlterMain {
 
     public static void main(String[] args) {
 
@@ -19,21 +19,12 @@ public class KitchenAddMain {
 
         KitchenRegistration kitchenRegistration = applicationContext.getBean(KitchenRegistration.class);
 
-        List<Kitchen> kitchens = kitchenRegistration.listKitchen();
+        Kitchen kitchen = new Kitchen();
+        kitchen.setName("Brasileira");
+        kitchen.setId(1L);
 
-        Kitchen kitchen1 = new Kitchen();
-        kitchen1.setName("Brasileira");
-
-        Kitchen kitchen2 = new Kitchen();
-        kitchen2.setName("Japonesa");
-
-        kitchen1 = kitchenRegistration.saveKitchen(kitchen1);
-        kitchen2 = kitchenRegistration.saveKitchen(kitchen2);
-
-        System.out.printf("%d - %s\n", kitchen1.getId(), kitchen1.getName());
-        System.out.printf("%d - %s\n", kitchen2.getId(), kitchen2.getName());
+        kitchenRegistration.saveKitchen(kitchen);
 
     }
 
 }
-

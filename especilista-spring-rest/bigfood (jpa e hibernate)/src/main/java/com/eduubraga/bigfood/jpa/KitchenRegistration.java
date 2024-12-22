@@ -22,7 +22,7 @@ public class KitchenRegistration {
     }
 
     @Transactional
-    public Kitchen AddKitchen(Kitchen kitchen) {
+    public Kitchen saveKitchen(Kitchen kitchen) {
         return manager.merge(kitchen);
     }
 
