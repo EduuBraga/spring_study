@@ -30,4 +30,10 @@ public class KitchenRegistration {
         return manager.find(Kitchen.class, id);
     }
 
+    @Transactional
+    public void removeKitchen(Kitchen kitchen) {
+        kitchen = queryKitchenByID(kitchen.getId());
+        manager.remove(kitchen);
+    }
+
 }
