@@ -3,6 +3,7 @@ package com.eduubraga.bigfood.jpa;
 
 import com.eduubraga.bigfood.BigfoodApi;
 import com.eduubraga.bigfood.domain.model.Kitchen;
+import com.eduubraga.bigfood.domain.repository.KitchenRepository;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
@@ -17,13 +18,13 @@ public class KitchenAlterMain {
                 .web(WebApplicationType.NONE)
                 .run(args);
 
-        KitchenRegistration kitchenRegistration = applicationContext.getBean(KitchenRegistration.class);
+        KitchenRepository kitchens = applicationContext.getBean(KitchenRepository.class);
 
         Kitchen kitchen = new Kitchen();
         kitchen.setName("Brasileira");
         kitchen.setId(1L);
 
-        kitchenRegistration.saveKitchen(kitchen);
+        kitchens.add(kitchen);
 
     }
 

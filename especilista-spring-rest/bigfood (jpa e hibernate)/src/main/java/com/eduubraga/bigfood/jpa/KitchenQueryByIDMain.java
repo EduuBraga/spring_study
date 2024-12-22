@@ -3,6 +3,7 @@ package com.eduubraga.bigfood.jpa;
 
 import com.eduubraga.bigfood.BigfoodApi;
 import com.eduubraga.bigfood.domain.model.Kitchen;
+import com.eduubraga.bigfood.domain.repository.KitchenRepository;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
@@ -17,9 +18,9 @@ public class KitchenQueryByIDMain {
                 .web(WebApplicationType.NONE)
                 .run(args);
 
-        KitchenRegistration kitchenRegistration = applicationContext.getBean(KitchenRegistration.class);
+        KitchenRepository kitchens = applicationContext.getBean(KitchenRepository.class);
 
-        Kitchen kitchen = kitchenRegistration.queryKitchenByID(2L);
+        Kitchen kitchen = kitchens.byId(2L);
 
         System.out.println(kitchen.getName());
 
