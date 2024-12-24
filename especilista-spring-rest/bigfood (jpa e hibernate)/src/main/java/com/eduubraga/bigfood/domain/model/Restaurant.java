@@ -16,6 +16,9 @@ public class Restaurant {
 
     private BigDecimal shippingFee;
 
+    @ManyToOne
+    private Kitchen kitchen;
+
     public Long getId() {
         return id;
     }
@@ -38,6 +41,14 @@ public class Restaurant {
 
     public void setShippingFee(BigDecimal shippingFee) {
         this.shippingFee = shippingFee;
+    }
+
+    public Kitchen getKitchen() {
+        return kitchen;
+    }
+
+    public void setKitchen(Kitchen kitchen) {
+        this.kitchen = kitchen;
     }
 
     @Override

@@ -4,9 +4,11 @@ import com.eduubraga.bigfood.domain.model.Restaurant;
 import com.eduubraga.bigfood.domain.repository.RestaurantRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class RestaurantRepositoryImpl implements RestaurantRepository {
 
     @PersistenceContext
