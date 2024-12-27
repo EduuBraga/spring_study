@@ -19,6 +19,9 @@ public class Restaurant {
     @ManyToOne
     private Kitchen kitchen;
 
+    @ManyToOne
+    private PaymentMethod paymentMethods;
+
     public Long getId() {
         return id;
     }
