@@ -1,7 +1,7 @@
 package com.eduubraga.bigfood.api.controller;
 
-import com.eduubraga.bigfood.domain.model.Kitchen;
-import com.eduubraga.bigfood.domain.repository.KitchenRepository;
+import com.eduubraga.bigfood.domain.model.State;
+import com.eduubraga.bigfood.domain.repository.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,14 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/kitchens")
-public class KitchenController {
+@RequestMapping("/states")
+public class StateController {
 
     @Autowired
-    private KitchenRepository kitchenRepository;
+    private StateRepository stateRepository;
 
     @GetMapping
-    public List<Kitchen> list() {
-        return kitchenRepository.all();
+    public List<State> list() {
+        return stateRepository.all();
     }
+
 }
