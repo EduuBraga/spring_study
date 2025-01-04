@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/states")
+@RequestMapping(value = "/states")
 public class StateController {
 
     @Autowired
@@ -20,5 +20,5 @@ public class StateController {
     public List<State> list() {
         return stateRepository.all();
     }
-
+    
 }
