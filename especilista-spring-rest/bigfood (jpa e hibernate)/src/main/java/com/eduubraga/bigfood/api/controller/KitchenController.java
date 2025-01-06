@@ -4,6 +4,7 @@ import com.eduubraga.bigfood.domain.model.Kitchen;
 import com.eduubraga.bigfood.domain.repository.KitchenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,4 +21,10 @@ public class KitchenController {
     public List<Kitchen> list() {
         return kitchenRepository.all();
     }
+
+    @GetMapping("/{kitchenId}")
+    public Kitchen searchById(@PathVariable Long kitchenId) {
+        return kitchenRepository.byId(kitchenId);
+    }
+
 }
