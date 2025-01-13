@@ -4,6 +4,7 @@ import com.eduubraga.bigfood.domain.model.Kitchen;
 import com.eduubraga.bigfood.domain.repository.KitchenRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,12 +49,28 @@ public class KitchenController {
             return ResponseEntity.notFound().build();
         }
 
-//        currentKitchen.setName(kitchen.getName());
         BeanUtils.copyProperties(kitchen, currentKitchen, "id");
 
         currentKitchen = kitchenRepository.add(currentKitchen);
 
         return ResponseEntity.ok(currentKitchen);
-    }   
+    }
+
+    @DeleteMapping("{kitchenId}")
+    public ResponseEntity<Kitchen> delete(@PathVariable Long kitchenId) {
+        try {
+            Kitchen kitchen = kitchenRepository.byId(kitchenId);
+
+            if (Objects.isNull(kitchen)) {
+                return ResponseEntity.notFound().build();
+            }
+
+            kitchenRepository.remove(kitchen);
+
+            return ResponseEntity.noContent().build();
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
 
 }
