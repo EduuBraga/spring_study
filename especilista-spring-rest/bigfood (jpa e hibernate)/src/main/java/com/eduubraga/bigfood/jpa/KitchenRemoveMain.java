@@ -23,7 +23,7 @@ public class KitchenRemoveMain {
         Kitchen kitchen = new Kitchen();
         kitchen.setId(1L);
 
-        kitchens.remove(kitchen);
+        kitchens.remove(kitchen.getId());
 
     }
 

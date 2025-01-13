@@ -5,6 +5,7 @@ import com.eduubraga.bigfood.domain.repository.KitchenRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,8 +34,13 @@ public class KitchenRepositoryImpl implements KitchenRepository {
 
     @Transactional
     @Override
-    public void remove(Kitchen kitchen) {
-        kitchen = byId(kitchen.getId());
+    public void remove(Long kitchenId) {
+        Kitchen kitchen = byId(kitchenId);
+
+        if (kitchen == null) {
+            throw new EmptyResultDataAccessException(1);
+        }
+
         manager.remove(kitchen);
     }
 

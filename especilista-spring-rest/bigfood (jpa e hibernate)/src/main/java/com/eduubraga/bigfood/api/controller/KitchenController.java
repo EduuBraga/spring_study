@@ -1,7 +1,10 @@
 package com.eduubraga.bigfood.api.controller;
 
+import com.eduubraga.bigfood.domain.exception.EntityInUseException;
+import com.eduubraga.bigfood.domain.exception.EntityNotFoundException;
 import com.eduubraga.bigfood.domain.model.Kitchen;
 import com.eduubraga.bigfood.domain.repository.KitchenRepository;
+import com.eduubraga.bigfood.domain.service.KitchenRegistrationService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -18,6 +21,9 @@ public class KitchenController {
 
     @Autowired
     private KitchenRepository kitchenRepository;
+
+    @Autowired
+    private KitchenRegistrationService kitchenRegistrationService;
 
     @GetMapping
     public List<Kitchen> list() {
@@ -38,7 +44,7 @@ public class KitchenController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Kitchen add(@RequestBody Kitchen kitchen) {
-        return kitchenRepository.add(kitchen);
+        return kitchenRegistrationService.add(kitchen);
     }
 
     @PutMapping("{kitchenId}")
@@ -59,16 +65,11 @@ public class KitchenController {
     @DeleteMapping("{kitchenId}")
     public ResponseEntity<Kitchen> delete(@PathVariable Long kitchenId) {
         try {
-            Kitchen kitchen = kitchenRepository.byId(kitchenId);
-
-            if (Objects.isNull(kitchen)) {
-                return ResponseEntity.notFound().build();
-            }
-
-            kitchenRepository.remove(kitchen);
-
+            kitchenRegistrationService.delete(kitchenId);
             return ResponseEntity.noContent().build();
-        } catch (DataIntegrityViolationException e) {
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (EntityInUseException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
