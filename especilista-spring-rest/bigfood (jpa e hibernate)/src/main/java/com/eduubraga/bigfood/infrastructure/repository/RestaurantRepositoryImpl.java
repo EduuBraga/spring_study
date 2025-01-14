@@ -4,6 +4,7 @@ import com.eduubraga.bigfood.domain.model.Restaurant;
 import com.eduubraga.bigfood.domain.repository.RestaurantRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,11 +26,13 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
     }
 
     @Override
+    @Transactional
     public Restaurant add(Restaurant restaurant) {
         return manager.merge(restaurant);
     }
 
     @Override
+    @Transactional
     public void remove(Restaurant restaurant) {
         restaurant = byId(restaurant.getId());
         manager.remove(restaurant);

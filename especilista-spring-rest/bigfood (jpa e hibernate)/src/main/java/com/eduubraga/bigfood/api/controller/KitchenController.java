@@ -7,7 +7,6 @@ import com.eduubraga.bigfood.domain.repository.KitchenRepository;
 import com.eduubraga.bigfood.domain.service.KitchenRegistrationService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,7 +56,7 @@ public class KitchenController {
 
         BeanUtils.copyProperties(kitchen, currentKitchen, "id");
 
-        currentKitchen = kitchenRepository.add(currentKitchen);
+        currentKitchen = kitchenRegistrationService.add(currentKitchen);
 
         return ResponseEntity.ok(currentKitchen);
     }
