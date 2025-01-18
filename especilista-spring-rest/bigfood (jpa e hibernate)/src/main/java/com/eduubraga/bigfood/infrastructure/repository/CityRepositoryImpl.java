@@ -27,7 +27,7 @@ public class CityRepositoryImpl implements CityRepository {
 
     @Transactional
     @Override
-    public City add(City city) {
+    public City save(City city) {
         return manager.merge(city);
     }
 

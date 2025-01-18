@@ -9,9 +9,9 @@ insert into payment_method (description) values ("Pagamento com cartão de créd
 insert into payment_method (description) values ("Pagamento com cartão de débito");
 
 -- RESTAURANTES
-insert into restaurant (name, shipping_fee, kitchen_id, payment_methods_id) values ("Lanche Feliz", 4.00, 1, 1);
-insert into restaurant (name, shipping_fee, kitchen_id, payment_methods_id) values ("Carro Burguer", 3.00, 1, 2);
-insert into restaurant (name, shipping_fee, kitchen_id, payment_methods_id) values ("Lamen 1000", 5.50, 2, 3);
+insert into restaurant (name, shipping_fee, kitchen_id, payment_method_id) values ("Lanche Feliz", 4.00, 1, 1);
+insert into restaurant (name, shipping_fee, kitchen_id, payment_method_id) values ("Carro Burguer", 3.00, 1, 2);
+insert into restaurant (name, shipping_fee, kitchen_id, payment_method_id) values ("Lamen 1000", 5.50, 2, 3);
 
 -- PERMISSÕES
 insert into permissions (name, description) values ("consultar produtos", "permite consultar todos os produtos do projeto.");

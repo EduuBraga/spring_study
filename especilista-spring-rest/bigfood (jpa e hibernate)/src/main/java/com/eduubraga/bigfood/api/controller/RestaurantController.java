@@ -1,6 +1,7 @@
 package com.eduubraga.bigfood.api.controller;
 
 import com.eduubraga.bigfood.domain.exception.EntityNotFoundException;
+import com.eduubraga.bigfood.domain.exception.RestaurantNotFoundException;
 import com.eduubraga.bigfood.domain.model.Restaurant;
 import com.eduubraga.bigfood.domain.repository.RestaurantRepository;
 import com.eduubraga.bigfood.domain.service.RestaurantRegistrationService;
@@ -27,7 +28,7 @@ public class RestaurantController {
     }
 
     @GetMapping("{restaurantId}")
-    public ResponseEntity<Restaurant> searchById(@PathVariable Long restaurantId) {
+    public ResponseEntity<Restaurant> findById(@PathVariable Long restaurantId) {
         Restaurant restaurant = restaurantRepository.byId(restaurantId);
 
         if (restaurant == null) {
@@ -38,9 +39,9 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public ResponseEntity<?> add(@RequestBody Restaurant restaurant) {
+    public ResponseEntity<?> save(@RequestBody Restaurant restaurant) {
         try {
-            restaurant = restaurantRegistrationService.add(restaurant);
+            restaurant = restaurantRegistrationService.save(restaurant);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(restaurant);
         } catch (EntityNotFoundException e) {
@@ -49,4 +50,17 @@ public class RestaurantController {
     }
 
 
+    @PutMapping("{restaurantId}")
+    public ResponseEntity<?> update(@PathVariable Long restaurantId, @RequestBody Restaurant restaurant) {
+        try {
+            restaurant = restaurantRegistrationService.update(restaurantId, restaurant);
+
+            return ResponseEntity.ok(restaurant);
+
+        } catch (RestaurantNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

@@ -8,7 +8,7 @@ public interface PermissionsRepository {
 
     List<Permissions> all();
     Permissions byId(Long id);
-    Permissions add(Permissions permissions);
+    Permissions save(Permissions permissions);
     void remove(Permissions permissions);
 
 }

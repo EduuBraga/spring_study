@@ -8,8 +8,6 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 
-import java.util.List;
-
 public class KitchenAlterMain {
 
     public static void main(String[] args) {
@@ -24,7 +22,7 @@ public class KitchenAlterMain {
         kitchen.setName("Brasileira");
         kitchen.setId(1L);
 
-        kitchens.add(kitchen);
+        kitchens.save(kitchen);
 
     }
 

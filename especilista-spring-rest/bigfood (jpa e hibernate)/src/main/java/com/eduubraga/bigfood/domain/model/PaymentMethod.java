@@ -11,6 +11,7 @@ public class PaymentMethod {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String description;
 
     public String getDescription() {
@@ -32,12 +33,14 @@ public class PaymentMethod {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PaymentMethod that)) return false;
-        return Objects.equals(id, that.id);
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PaymentMethod kitchen = (PaymentMethod) o;
+        return Objects.equals(id, kitchen.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hashCode(id);
     }
 }

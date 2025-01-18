@@ -27,7 +27,7 @@ public class PaymentMethodRepositoryImpl implements PaymentMethodRepository {
 
     @Transactional
     @Override
-    public PaymentMethod add(PaymentMethod paymentMethod) {
+    public PaymentMethod save(PaymentMethod paymentMethod) {
         return manager.merge(paymentMethod);
     }
 

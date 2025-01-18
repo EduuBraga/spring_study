@@ -8,7 +8,7 @@ public interface PaymentMethodRepository {
 
     List<PaymentMethod> all();
     PaymentMethod byId(Long id);
-    PaymentMethod add(PaymentMethod paymentMethod);
+    PaymentMethod save(PaymentMethod paymentMethod);
     void remove(PaymentMethod paymentMethod);
 
 }

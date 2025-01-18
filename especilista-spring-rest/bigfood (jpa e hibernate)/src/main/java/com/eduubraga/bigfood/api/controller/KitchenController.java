@@ -30,7 +30,7 @@ public class KitchenController {
     }
 
     @GetMapping("/{kitchenId}")
-    public ResponseEntity<Kitchen> searchById(@PathVariable Long kitchenId) {
+    public ResponseEntity<Kitchen> findById(@PathVariable Long kitchenId) {
         Kitchen kitchen = kitchenRepository.byId(kitchenId);
 
         if (Objects.isNull(kitchen)) {
@@ -42,8 +42,8 @@ public class KitchenController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Kitchen add(@RequestBody Kitchen kitchen) {
-        return kitchenRegistrationService.add(kitchen);
+    public Kitchen save(@RequestBody Kitchen kitchen) {
+        return kitchenRegistrationService.save(kitchen);
     }
 
     @PutMapping("{kitchenId}")
@@ -56,7 +56,7 @@ public class KitchenController {
 
         BeanUtils.copyProperties(kitchen, currentKitchen, "id");
 
-        currentKitchen = kitchenRegistrationService.add(currentKitchen);
+        currentKitchen = kitchenRegistrationService.save(currentKitchen);
 
         return ResponseEntity.ok(currentKitchen);
     }

@@ -4,6 +4,7 @@ import com.eduubraga.bigfood.domain.model.State;
 import com.eduubraga.bigfood.domain.repository.StateRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,11 +26,13 @@ public class StateRepositoryImpl implements StateRepository {
     }
 
     @Override
+    @Transactional
     public State add(State state) {
         return manager.merge(state);
     }
 
     @Override
+    @Transactional
     public void remove(State state) {
         state = byId(state.getId());
         manager.remove(state);

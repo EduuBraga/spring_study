@@ -1,5 +1,6 @@
 package com.eduubraga.bigfood.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -20,7 +21,8 @@ public class Restaurant {
     private Kitchen kitchen;
 
     @ManyToOne
-    private PaymentMethod paymentMethods;
+    @JoinColumn(name = "payment_method_id", nullable = false)
+    private PaymentMethod paymentMethod;
 
     public Long getId() {
         return id;
@@ -52,6 +54,14 @@ public class Restaurant {
 
     public void setKitchen(Kitchen kitchen) {
         this.kitchen = kitchen;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     @Override

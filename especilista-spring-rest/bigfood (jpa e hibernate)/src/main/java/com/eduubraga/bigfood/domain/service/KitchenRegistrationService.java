@@ -9,19 +9,14 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-
 @Service
 public class KitchenRegistrationService {
 
     @Autowired
     private KitchenRepository kitchenRepository;
 
-    public Kitchen add(Kitchen kitchen) {
-        // Dentro do service que fica as regras de negócio, como: só poder criar cozinhas se for dias da semana e etc
-        // Aqui dentro não ficaria só o método add e sim todos os métodos que fazem parte do cadastro, como: excluir,
-        // modificar e etc.
-        return kitchenRepository.add(kitchen);
+    public Kitchen save(Kitchen kitchen) {
+        return kitchenRepository.save(kitchen);
     }
 
     public void delete(Long kitchenId) {
