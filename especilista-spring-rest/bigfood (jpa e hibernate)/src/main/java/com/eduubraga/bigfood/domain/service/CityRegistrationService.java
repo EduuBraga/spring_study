@@ -60,7 +60,7 @@ public class CityRegistrationService {
 
         if (city == null) {
             throw new EntityNotFoundException(
-                    String.format("Não existe valor na entidade \"City\" para o código: %d.%n", cityId)
+                    String.format("Não existe recurso na entidade \"City\" para o código: %d.%n", cityId)
             );
         }
 
@@ -72,7 +72,7 @@ public class CityRegistrationService {
 
         if (state == null) {
             throw new EntityNotFoundException(
-                    String.format("Não existe valor na entidade \"State\" para o código: %d.%n", stateId)
+                    String.format("Não existe recurso na entidade \"State\" para o código: %d.%n", stateId)
             );
         }
 

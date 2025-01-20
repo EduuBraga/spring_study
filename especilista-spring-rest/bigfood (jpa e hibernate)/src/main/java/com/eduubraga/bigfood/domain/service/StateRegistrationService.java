@@ -1,9 +1,11 @@
 package com.eduubraga.bigfood.domain.service;
 
+import com.eduubraga.bigfood.domain.exception.EntityInUseException;
 import com.eduubraga.bigfood.domain.exception.EntityNotFoundException;
 import com.eduubraga.bigfood.domain.model.State;
 import com.eduubraga.bigfood.domain.repository.StateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,7 +35,14 @@ public class StateRegistrationService {
     public void delete(Long stateId) {
         State state = stateIsNull(stateId);
 
-        stateRepository.remove(state);
+        try {
+            stateRepository.remove(state);
+        } catch (DataIntegrityViolationException e) {
+            throw new EntityInUseException(String.format(
+                    "O recurso de \"City\" do código: %d não pode ser removido pois está em uso.%n",
+                    stateId)
+            );
+        }
     }
 
     private State stateIsNull(Long stateId) {
@@ -41,7 +50,7 @@ public class StateRegistrationService {
 
         if (state == null) {
             throw new EntityNotFoundException(
-                    String.format("O código %d não corresponde a nenhum estado.%n", stateId)
+                    String.format("Nenhum recurso encontrado para o código:%d.%n", stateId)
             );
         }
 

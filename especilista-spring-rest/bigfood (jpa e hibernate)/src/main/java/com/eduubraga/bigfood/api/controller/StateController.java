@@ -1,5 +1,6 @@
 package com.eduubraga.bigfood.api.controller;
 
+import com.eduubraga.bigfood.domain.exception.EntityInUseException;
 import com.eduubraga.bigfood.domain.exception.EntityNotFoundException;
 import com.eduubraga.bigfood.domain.model.State;
 import com.eduubraga.bigfood.domain.repository.StateRepository;
@@ -58,6 +59,8 @@ public class StateController {
             stateRegistrationService.delete(stateId);
             return ResponseEntity.noContent().build();
         } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (EntityInUseException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
