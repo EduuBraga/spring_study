@@ -27,7 +27,7 @@ public class RestaurantController {
         return restaurantRepository.all();
     }
 
-    @GetMapping("{restaurantId}")
+    @GetMapping("/{restaurantId}")
     public ResponseEntity<Restaurant> findById(@PathVariable Long restaurantId) {
         Restaurant restaurant = restaurantRepository.byId(restaurantId);
 
@@ -50,7 +50,7 @@ public class RestaurantController {
     }
 
 
-    @PutMapping("{restaurantId}")
+    @PutMapping("/{restaurantId}")
     public ResponseEntity<?> update(@PathVariable Long restaurantId, @RequestBody Restaurant restaurant) {
         try {
             restaurant = restaurantRegistrationService.update(restaurantId, restaurant);

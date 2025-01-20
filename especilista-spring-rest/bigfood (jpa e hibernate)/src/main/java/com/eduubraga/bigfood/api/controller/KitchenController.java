@@ -46,7 +46,7 @@ public class KitchenController {
         return kitchenRegistrationService.save(kitchen);
     }
 
-    @PutMapping("{kitchenId}")
+    @PutMapping("/{kitchenId}")
     public ResponseEntity<Kitchen> update(@PathVariable Long kitchenId, @RequestBody Kitchen kitchen) {
         Kitchen currentKitchen = kitchenRepository.byId(kitchenId);
 
@@ -61,7 +61,7 @@ public class KitchenController {
         return ResponseEntity.ok(currentKitchen);
     }
 
-    @DeleteMapping("{kitchenId}")
+    @DeleteMapping("/{kitchenId}")
     public ResponseEntity<Kitchen> delete(@PathVariable Long kitchenId) {
         try {
             kitchenRegistrationService.delete(kitchenId);
