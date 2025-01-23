@@ -30,14 +30,13 @@ public class KitchenController {
     }
 
     @GetMapping("/{kitchenId}")
-    public ResponseEntity<Kitchen> findById(@PathVariable Long kitchenId) {
-        Kitchen kitchen = kitchenRepository.byId(kitchenId);
-
-        if (Objects.isNull(kitchen)) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<?> findById(@PathVariable Long kitchenId) {
+        try {
+            Kitchen kitchen = kitchenRegistrationService.findById(kitchenId);
+            return ResponseEntity.ok(kitchen);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-
-        return ResponseEntity.ok(kitchen);
     }
 
     @PostMapping
@@ -47,29 +46,24 @@ public class KitchenController {
     }
 
     @PutMapping("/{kitchenId}")
-    public ResponseEntity<Kitchen> update(@PathVariable Long kitchenId, @RequestBody Kitchen kitchen) {
-        Kitchen currentKitchen = kitchenRepository.byId(kitchenId);
-
-        if (Objects.isNull(currentKitchen)) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<?> update(@PathVariable Long kitchenId, @RequestBody Kitchen kitchen) {
+        try {
+            kitchen = kitchenRegistrationService.update(kitchenId, kitchen);
+            return ResponseEntity.ok(kitchen);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-
-        BeanUtils.copyProperties(kitchen, currentKitchen, "id");
-
-        currentKitchen = kitchenRegistrationService.save(currentKitchen);
-
-        return ResponseEntity.ok(currentKitchen);
     }
 
     @DeleteMapping("/{kitchenId}")
-    public ResponseEntity<Kitchen> delete(@PathVariable Long kitchenId) {
+    public ResponseEntity<?> delete(@PathVariable Long kitchenId) {
         try {
             kitchenRegistrationService.delete(kitchenId);
             return ResponseEntity.noContent().build();
         } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (EntityInUseException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
 

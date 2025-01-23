@@ -1,7 +1,7 @@
 package com.eduubraga.bigfood.api.controller;
 
 import com.eduubraga.bigfood.domain.exception.EntityNotFoundException;
-import com.eduubraga.bigfood.domain.exception.RestaurantNotFoundException;
+import com.eduubraga.bigfood.domain.exception.ForeignKeyNotFoundException;
 import com.eduubraga.bigfood.domain.model.Restaurant;
 import com.eduubraga.bigfood.domain.repository.RestaurantRepository;
 import com.eduubraga.bigfood.domain.service.RestaurantRegistrationService;
@@ -28,14 +28,13 @@ public class RestaurantController {
     }
 
     @GetMapping("/{restaurantId}")
-    public ResponseEntity<Restaurant> findById(@PathVariable Long restaurantId) {
-        Restaurant restaurant = restaurantRepository.byId(restaurantId);
-
-        if (restaurant == null) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<?> findById(@PathVariable Long restaurantId) {
+        try {
+            Restaurant restaurant = restaurantRegistrationService.findById(restaurantId);
+            return ResponseEntity.ok(restaurant);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-
-        return ResponseEntity.ok(restaurant);
     }
 
     @PostMapping
@@ -44,7 +43,7 @@ public class RestaurantController {
             restaurant = restaurantRegistrationService.save(restaurant);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(restaurant);
-        } catch (EntityNotFoundException e) {
+        } catch (ForeignKeyNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -56,10 +55,9 @@ public class RestaurantController {
             restaurant = restaurantRegistrationService.update(restaurantId, restaurant);
 
             return ResponseEntity.ok(restaurant);
-
-        } catch (RestaurantNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (ForeignKeyNotFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }

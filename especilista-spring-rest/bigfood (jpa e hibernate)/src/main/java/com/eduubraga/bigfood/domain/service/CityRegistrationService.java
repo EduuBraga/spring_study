@@ -1,6 +1,7 @@
 package com.eduubraga.bigfood.domain.service;
 
 import com.eduubraga.bigfood.domain.exception.EntityNotFoundException;
+import com.eduubraga.bigfood.domain.exception.ForeignKeyNotFoundException;
 import com.eduubraga.bigfood.domain.model.City;
 import com.eduubraga.bigfood.domain.model.State;
 import com.eduubraga.bigfood.domain.repository.CityRepository;
@@ -19,64 +20,50 @@ public class CityRegistrationService {
     private StateRepository stateRepository;
 
     public City findById(Long cityId) {
-        City city = cityIsNull(cityId);
-
-        return city;
+        return findCityByIdOrThrow(cityId);
     }
 
     public City save(City cityInput) {
-        Long stateId = cityInput.getState().getId();
-        State state = stateIsNull(stateId);
-
+        State state = findStateByIdOrThrow(cityInput.getState().getId());
         cityInput.setState(state);
 
         return cityRepository.save(cityInput);
     }
 
     public City update(Long cityId, City cityInput) {
-        City cityCurrent = cityIsNull(cityId);
-
-        Long stateId = cityInput.getState().getId();
-        State state = stateIsNull(stateId);
-
-        cityCurrent.setState(state);
+        City cityCurrent = findCityByIdOrThrow(cityId);
+        State state = findStateByIdOrThrow(cityInput.getState().getId());
 
         BeanUtils.copyProperties(cityInput, cityCurrent, "id", "state");
+        cityCurrent.setState(state);
 
         return cityRepository.save(cityCurrent);
     }
 
     public void delete(Long cityId) {
-        City city = cityIsNull(cityId);
+        City city = findCityByIdOrThrow(cityId);
 
-        cityRepository.remove(city);
+        try {
+            cityRepository.remove(cityId);
+        } catch (EntityNotFoundException e) {
+            throw new EntityNotFoundException(e.getMessage());
+        }
     }
 
+    // Métodos auxiliares privados
 
-    // Métodos privados
-
-    private City cityIsNull(Long cityId) {
-        City city = cityRepository.byId(cityId);
-
-        if (city == null) {
-            throw new EntityNotFoundException(
-                    String.format("Não existe recurso na entidade \"City\" para o código: %d.%n", cityId)
-            );
-        }
-
-        return city;
+    private City findCityByIdOrThrow(Long cityId) {
+        return cityRepository.findById(cityId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("A cidade com o ID %d não foi encontrada.", cityId)
+                ));
     }
 
-    private State stateIsNull(Long stateId) {
-        State state = stateRepository.byId(stateId);
-
-        if (state == null) {
-            throw new EntityNotFoundException(
-                    String.format("Não existe recurso na entidade \"State\" para o código: %d.%n", stateId)
-            );
-        }
-
-        return state;
+    private State findStateByIdOrThrow(Long stateId) {
+        return stateRepository.findById(stateId)
+                .orElseThrow(() -> new ForeignKeyNotFoundException(
+                        String.format("O estado relacionado com o ID %d não foi encontrado.", stateId)
+                ));
     }
 
 }

@@ -1,5 +1,6 @@
 package com.eduubraga.bigfood.infrastructure.repository;
 
+import com.eduubraga.bigfood.domain.exception.EntityNotFoundException;
 import com.eduubraga.bigfood.domain.model.Kitchen;
 import com.eduubraga.bigfood.domain.repository.KitchenRepository;
 import jakarta.persistence.EntityManager;
@@ -9,6 +10,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class KitchenRepositoryImpl implements KitchenRepository {
@@ -22,8 +24,8 @@ public class KitchenRepositoryImpl implements KitchenRepository {
     }
 
     @Override
-    public Kitchen byId(Long id) {
-        return manager.find(Kitchen.class, id);
+    public Optional<Kitchen> findById(Long id) {
+        return Optional.ofNullable(manager.find(Kitchen.class, id));
     }
 
     @Transactional
@@ -35,13 +37,12 @@ public class KitchenRepositoryImpl implements KitchenRepository {
     @Transactional
     @Override
     public void remove(Long kitchenId) {
-        Kitchen kitchen = byId(kitchenId);
+        Kitchen kitchenToRemove = findById(kitchenId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("A cozinha com o ID %d não foi encontrada.", kitchenId)
+                ));
 
-        if (kitchen == null) {
-            throw new EmptyResultDataAccessException(1);
-        }
-
-        manager.remove(kitchen);
+        manager.remove(kitchenToRemove);
     }
 
 }

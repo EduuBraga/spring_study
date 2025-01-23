@@ -1,14 +1,15 @@
 package com.eduubraga.bigfood.infrastructure.repository;
 
+import com.eduubraga.bigfood.domain.exception.EntityNotFoundException;
 import com.eduubraga.bigfood.domain.model.Restaurant;
 import com.eduubraga.bigfood.domain.repository.RestaurantRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class RestaurantRepositoryImpl implements RestaurantRepository {
@@ -22,8 +23,8 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
     }
 
     @Override
-    public Restaurant byId(Long id) {
-        return manager.find(Restaurant.class, id);
+    public Optional<Restaurant> findById(Long id) {
+        return Optional.ofNullable(manager.find(Restaurant.class, id));
     }
 
     @Override
@@ -34,8 +35,12 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
 
     @Override
     @Transactional
-    public void remove(Restaurant restaurant) {
-        restaurant = byId(restaurant.getId());
-        manager.remove(restaurant);
+    public void remove(Long restaurantId) {
+        Restaurant restaurantToRemove = findById(restaurantId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("O restaurante com o ID %d não foi encontrado.", restaurantId)
+                ));
+
+        manager.remove(restaurantToRemove);
     }
 }

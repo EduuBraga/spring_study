@@ -1,5 +1,7 @@
 package com.eduubraga.bigfood.infrastructure.repository;
 
+import com.eduubraga.bigfood.domain.exception.EntityNotFoundException;
+import com.eduubraga.bigfood.domain.model.City;
 import com.eduubraga.bigfood.domain.model.State;
 import com.eduubraga.bigfood.domain.repository.StateRepository;
 import jakarta.persistence.EntityManager;
@@ -8,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class StateRepositoryImpl implements StateRepository {
@@ -21,8 +24,10 @@ public class StateRepositoryImpl implements StateRepository {
     }
 
     @Override
-    public State byId(Long id) {
-        return manager.find(State.class, id);
+    public Optional<State> findById(Long id) {
+        State state = manager.find(State.class, id);
+
+        return Optional.ofNullable(state);
     }
 
     @Override
@@ -33,9 +38,13 @@ public class StateRepositoryImpl implements StateRepository {
 
     @Override
     @Transactional
-    public void remove(State state) {
-        state = byId(state.getId());
-        manager.remove(state);
+    public void remove(Long stateId) {
+        State stateCurrent = findById(stateId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("O estado com o ID %d não foi encontrado.", stateId)
+                ));
+
+        manager.remove(stateCurrent);
     }
 
 }

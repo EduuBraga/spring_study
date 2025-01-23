@@ -1,6 +1,7 @@
 package com.eduubraga.bigfood.api.controller;
 
 import com.eduubraga.bigfood.domain.exception.EntityNotFoundException;
+import com.eduubraga.bigfood.domain.exception.ForeignKeyNotFoundException;
 import com.eduubraga.bigfood.domain.model.City;
 import com.eduubraga.bigfood.domain.repository.CityRepository;
 import com.eduubraga.bigfood.domain.service.CityRegistrationService;
@@ -41,8 +42,8 @@ public class CityController {
         try {
             city = cityRegistrationService.save(city);
             return ResponseEntity.status(HttpStatus.CREATED).body(city);
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (ForeignKeyNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
@@ -53,6 +54,8 @@ public class CityController {
             return ResponseEntity.ok(city);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (ForeignKeyNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 

@@ -1,7 +1,7 @@
 package com.eduubraga.bigfood.domain.service;
 
 import com.eduubraga.bigfood.domain.exception.EntityNotFoundException;
-import com.eduubraga.bigfood.domain.exception.RestaurantNotFoundException;
+import com.eduubraga.bigfood.domain.exception.ForeignKeyNotFoundException;
 import com.eduubraga.bigfood.domain.model.Kitchen;
 import com.eduubraga.bigfood.domain.model.PaymentMethod;
 import com.eduubraga.bigfood.domain.model.Restaurant;
@@ -24,6 +24,10 @@ public class RestaurantRegistrationService {
     @Autowired
     private PaymentMethodRepository paymentMethodRepository;
 
+    public Restaurant findById(Long restaurantId) {
+        return findRestaurantByIdOrThrow(restaurantId);
+    }
+
     public Restaurant save(Restaurant restaurant) {
         restaurant = checkNullAssociation(restaurant);
 
@@ -31,44 +35,43 @@ public class RestaurantRegistrationService {
     }
 
     public Restaurant update(Long restaurantId, Restaurant restaurantInput) {
-        Restaurant restaurantCurrent = restaurantRepository.byId(restaurantId);
-
-        if (restaurantCurrent == null) {
-            throw new RestaurantNotFoundException(
-                    String.format("O restaurante representado pelo ID: %d não existe.%n", restaurantId)
-            );
-        }
+        Restaurant restaurantCurrent = findRestaurantByIdOrThrow(restaurantId);
 
         restaurantInput = checkNullAssociation(restaurantInput);
 
         BeanUtils.copyProperties(restaurantInput, restaurantCurrent, "id");
 
-        return save(restaurantCurrent);
+        return restaurantRepository.save(restaurantCurrent);
     }
+
+    // Métodos privados auxiliares
 
     private Restaurant checkNullAssociation(Restaurant restaurant) {
         Long kitchenId = restaurant.getKitchen().getId();
-        Kitchen kitchen = kitchenRepository.byId(kitchenId);
-
-        if (kitchen == null) {
-            throw new EntityNotFoundException(
-                    String.format("A cozinha referente ao ID: %d não existe.%n", kitchenId)
-            );
-        }
+        Kitchen kitchen = kitchenRepository
+                .findById(kitchenId)
+                .orElseThrow(() -> new ForeignKeyNotFoundException(
+                        String.format("A cozinha relacionada com o ID %d não foi encontrada.", kitchenId)
+                ));
 
         Long paymentMethodId = restaurant.getPaymentMethod().getId();
-        PaymentMethod paymentMethod = paymentMethodRepository.byId(paymentMethodId);
+        PaymentMethod paymentMethod = paymentMethodRepository
+                .findById(paymentMethodId)
+                .orElseThrow(() -> new ForeignKeyNotFoundException(
+                        String.format("O método de pagamento relacionado com o ID %d não foi encontrado.", paymentMethodId)
+                ));
 
-        if (paymentMethod == null) {
-            throw new EntityNotFoundException(
-                    String.format("O método de pagemento referente ao ID: %d não existe.%n", paymentMethodId)
-            );
-        }
-
-        restaurant.setPaymentMethod(paymentMethod);
         restaurant.setKitchen(kitchen);
+        restaurant.setPaymentMethod(paymentMethod);
 
         return restaurant;
+    }
+
+    private Restaurant findRestaurantByIdOrThrow(Long restaurantId) {
+        return restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("O restaurante com o ID %d não foi encontrada.", restaurantId)
+                ));
     }
 
 }

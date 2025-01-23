@@ -15,7 +15,7 @@ public class StateRegistrationService {
     private StateRepository stateRepository;
 
     public State findById(Long stateId) {
-        State state = stateIsNull(stateId);
+        State state = findStateByIdOrThrow(stateId);
 
         return state;
     }
@@ -25,7 +25,7 @@ public class StateRegistrationService {
     }
 
     public State update(Long stateId, State stateInput) {
-        State state = stateIsNull(stateId);
+        State state = findStateByIdOrThrow(stateId);
 
         state.setName(stateInput.getName());
 
@@ -33,28 +33,25 @@ public class StateRegistrationService {
     }
 
     public void delete(Long stateId) {
-        State state = stateIsNull(stateId);
+        State state = findStateByIdOrThrow(stateId);
 
         try {
-            stateRepository.remove(state);
+            stateRepository.remove(stateId);
         } catch (DataIntegrityViolationException e) {
             throw new EntityInUseException(String.format(
-                    "O recurso de \"City\" do código: %d não pode ser removido pois está em uso.%n",
+                    "O estado com o ID %d não pode ser removida pois está em uso.%n",
                     stateId)
             );
+        } catch (EntityNotFoundException e) {
+            throw new EntityInUseException(e.getMessage());
         }
     }
 
-    private State stateIsNull(Long stateId) {
-        State state = stateRepository.byId(stateId);
-
-        if (state == null) {
-            throw new EntityNotFoundException(
-                    String.format("Nenhum recurso encontrado para o código:%d.%n", stateId)
-            );
-        }
-
-        return state;
+    private State findStateByIdOrThrow(Long stateId) {
+        return stateRepository.findById(stateId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        String.format("O estado com o ID %d não foi encontrada.%n", stateId)
+                ));
     }
 
 }

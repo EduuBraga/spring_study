@@ -8,8 +8,6 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ApplicationContext;
 
-import java.util.List;
-
 public class KitchenQueryByIDMain {
 
     public static void main(String[] args) {
@@ -20,9 +18,9 @@ public class KitchenQueryByIDMain {
 
         KitchenRepository kitchens = applicationContext.getBean(KitchenRepository.class);
 
-        Kitchen kitchen = kitchens.byId(2L);
-
-        System.out.println(kitchen.getName());
+//        Kitchen kitchen = kitchens.findById(2L);
+//
+//        System.out.println(kitchen.getName());
 
     }
 
