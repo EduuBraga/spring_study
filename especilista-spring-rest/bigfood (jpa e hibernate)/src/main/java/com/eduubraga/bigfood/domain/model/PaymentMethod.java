@@ -14,6 +14,7 @@ public class PaymentMethod {
     @Column(nullable = false)
     private String description;
 
+    @Column(nullable = false)
     public String getDescription() {
         return description;
     }
