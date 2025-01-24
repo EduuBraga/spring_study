@@ -8,9 +8,14 @@ import com.eduubraga.bigfood.domain.model.Restaurant;
 import com.eduubraga.bigfood.domain.repository.KitchenRepository;
 import com.eduubraga.bigfood.domain.repository.PaymentMethodRepository;
 import com.eduubraga.bigfood.domain.repository.RestaurantRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
+
+import java.lang.reflect.Field;
+import java.util.Map;
 
 @Service
 public class RestaurantRegistrationService {
@@ -44,6 +49,16 @@ public class RestaurantRegistrationService {
         return restaurantRepository.save(restaurantCurrent);
     }
 
+    public Restaurant updatePartial(Long restaurantId, Map<String, Object> restaurantFields) {
+        Restaurant restaurant = findRestaurantByIdOrThrow(restaurantId);
+
+        merge(restaurantFields, restaurant);
+
+        restaurant = update(restaurantId, restaurant);
+
+        return restaurant;
+    }
+
     // Métodos privados auxiliares
 
     private Restaurant checkNullAssociation(Restaurant restaurant) {
@@ -72,6 +87,20 @@ public class RestaurantRegistrationService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("O restaurante com o ID %d não foi encontrada.", restaurantId)
                 ));
+    }
+
+    private void merge(Map<String, Object> originData, Restaurant destinationRestaurant) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Restaurant restaurantOrigin = objectMapper.convertValue(originData, Restaurant.class);
+
+        originData.forEach((propName, propValue) -> {
+            Field field = ReflectionUtils.findField(Restaurant.class, propName);
+            field.setAccessible(true);
+
+            Object newValue = ReflectionUtils.getField(field, restaurantOrigin);
+
+            ReflectionUtils.setField(field, destinationRestaurant, newValue);
+        });
     }
 
 }
