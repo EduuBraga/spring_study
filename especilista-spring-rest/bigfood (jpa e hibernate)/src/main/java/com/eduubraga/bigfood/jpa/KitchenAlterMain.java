@@ -16,13 +16,13 @@ public class KitchenAlterMain {
                 .web(WebApplicationType.NONE)
                 .run(args);
 
-        KitchenRepository kitchens = applicationContext.getBean(KitchenRepository.class);
-
-        Kitchen kitchen = new Kitchen();
-        kitchen.setName("Brasileira");
-        kitchen.setId(1L);
-
-        kitchens.save(kitchen);
+//        KitchenRepository kitchens = applicationContext.getBean(KitchenRepository.class);
+//
+//        Kitchen kitchen = new Kitchen();
+//        kitchen.setName("Brasileira");
+//        kitchen.setId(1L);
+//
+//        kitchens.save(kitchen);
 
     }
 

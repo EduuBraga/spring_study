@@ -1,16 +1,13 @@
 package com.eduubraga.bigfood.domain.repository;
 
 import com.eduubraga.bigfood.domain.model.Kitchen;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface KitchenRepository {
+public interface KitchenRepository extends JpaRepository<Kitchen, Long> {
 
-    // Baseado em coleções do java
-    List<Kitchen> all();
-    Optional<Kitchen> findById(Long id);
-    Kitchen save(Kitchen kitchen);
-    void remove(Long kitchenId);
+//    List<Kitchen> findByName(String name);
 
 }

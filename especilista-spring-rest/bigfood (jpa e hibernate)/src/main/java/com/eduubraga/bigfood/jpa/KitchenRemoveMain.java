@@ -20,10 +20,10 @@ public class KitchenRemoveMain {
 
         KitchenRepository kitchens = applicationContext.getBean(KitchenRepository.class);
 
-        Kitchen kitchen = new Kitchen();
-        kitchen.setId(1L);
-
-        kitchens.remove(kitchen.getId());
+//        Kitchen kitchen = new Kitchen();
+//        kitchen.setId(1L);
+//
+//        kitchens.remove(kitchen.getId());
 
     }
 

@@ -8,10 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import java.util.Objects;
 
 @Service
 public class KitchenRegistrationService {
@@ -45,7 +42,8 @@ public class KitchenRegistrationService {
 
     public void delete(Long kitchenId) {
         try {
-            kitchenRepository.remove(kitchenId);
+            Kitchen kitchenToRemove = findById(kitchenId);
+            kitchenRepository.delete(kitchenToRemove);
         } catch (DataIntegrityViolationException e) {
             throw new EntityInUseException(
                     String.format("A cozinha com o ID %d não pode ser removida pois está em uso.%n", kitchenId)

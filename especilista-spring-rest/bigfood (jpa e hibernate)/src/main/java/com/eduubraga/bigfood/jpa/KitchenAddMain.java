@@ -20,19 +20,19 @@ public class KitchenAddMain {
 
         KitchenRepository kitchenRepository = applicationContext.getBean(KitchenRepository.class);
 
-        List<Kitchen> kitchens = kitchenRepository.all();
-
-        Kitchen kitchen1 = new Kitchen();
-        kitchen1.setName("Brasileira");
-
-        Kitchen kitchen2 = new Kitchen();
-        kitchen2.setName("Japonesa");
-
-        kitchen1 = kitchenRepository.save(kitchen1);
-        kitchen2 = kitchenRepository.save(kitchen2);
-
-        System.out.printf("%d - %s\n", kitchen1.getId(), kitchen1.getName());
-        System.out.printf("%d - %s\n", kitchen2.getId(), kitchen2.getName());
+//        List<Kitchen> kitchens = kitchenRepository.all();
+//
+//        Kitchen kitchen1 = new Kitchen();
+//        kitchen1.setName("Brasileira");
+//
+//        Kitchen kitchen2 = new Kitchen();
+//        kitchen2.setName("Japonesa");
+//
+//        kitchen1 = kitchenRepository.save(kitchen1);
+//        kitchen2 = kitchenRepository.save(kitchen2);
+//
+//        System.out.printf("%d - %s\n", kitchen1.getId(), kitchen1.getName());
+//        System.out.printf("%d - %s\n", kitchen2.getId(), kitchen2.getName());
 
     }
 

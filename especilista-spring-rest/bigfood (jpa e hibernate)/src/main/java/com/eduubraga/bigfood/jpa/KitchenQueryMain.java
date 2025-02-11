@@ -20,13 +20,13 @@ public class KitchenQueryMain {
 
         KitchenRepository kitchens = applicationContext.getBean(KitchenRepository.class);
 
-        List<Kitchen> kitchensAll = kitchens.all();
-
-        for (Kitchen kitchen : kitchensAll) {
-            System.out.println(kitchen.getId());
-            System.out.println(kitchen.getName());
-            System.out.println("-----------");
-        }
+//        List<Kitchen> kitchensAll = kitchens.all();
+//
+//        for (Kitchen kitchen : kitchensAll) {
+//            System.out.println(kitchen.getId());
+//            System.out.println(kitchen.getName());
+//            System.out.println("-----------");
+//        }
 
     }
 

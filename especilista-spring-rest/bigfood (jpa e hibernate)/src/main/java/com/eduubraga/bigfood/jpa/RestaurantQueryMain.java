@@ -22,15 +22,15 @@ public class RestaurantQueryMain {
 
         RestaurantRepository restaurants = applicationContext.getBean(RestaurantRepository.class);
 
-        List<Restaurant> restaurantsAll = restaurants.all();
-
-        for (Restaurant restaurant : restaurantsAll) {
-            System.out.printf("Nome do Restaurante: %s | Taxa de frete: %.2f | Nome da Cozinha: %s%n",
-                    restaurant.getName(),
-                    restaurant.getShippingFee(),
-                    restaurant.getKitchen().getName()
-            );
-        }
+//        List<Restaurant> restaurantsAll = restaurants.all();
+//
+//        for (Restaurant restaurant : restaurantsAll) {
+//            System.out.printf("Nome do Restaurante: %s | Taxa de frete: %.2f | Nome da Cozinha: %s%n",
+//                    restaurant.getName(),
+//                    restaurant.getShippingFee(),
+//                    restaurant.getKitchen().getName()
+//            );
+//        }
 
     }
 
