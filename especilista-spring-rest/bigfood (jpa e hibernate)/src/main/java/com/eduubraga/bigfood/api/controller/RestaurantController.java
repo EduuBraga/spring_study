@@ -25,7 +25,7 @@ public class RestaurantController {
 
     @GetMapping
     public List<Restaurant> list() {
-        return restaurantRepository.all();
+        return restaurantRepository.findAll();
     }
 
     @GetMapping("/{restaurantId}")
