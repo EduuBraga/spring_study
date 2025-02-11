@@ -41,10 +41,9 @@ public class CityRegistrationService {
     }
 
     public void delete(Long cityId) {
-        City city = findCityByIdOrThrow(cityId);
-
         try {
-            cityRepository.remove(cityId);
+            City city = findCityByIdOrThrow(cityId);
+            cityRepository.delete(city);
         } catch (EntityNotFoundException e) {
             throw new EntityNotFoundException(e.getMessage());
         }
