@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface KitchenRepository extends JpaRepository<Kitchen, Long> {
 
-//    List<Kitchen> findByName(String name);
+    List<Kitchen> findByName(String name);
 
 }
